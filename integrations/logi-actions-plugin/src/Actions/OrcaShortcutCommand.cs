@@ -25,6 +25,8 @@ namespace Loupedeck.OrcaPlugin
             new("sidebar.left.toggle", "Toggle Sidebar", new Chord(VirtualKeyCode.KeyB, Mod: true)),
             new("sidebar.right.toggle", "Toggle Right Sidebar", new Chord(VirtualKeyCode.KeyL, Mod: true)),
             new("sidebar.sourceControl.toggle", "Source Control", new Chord(VirtualKeyCode.KeyG, Mod: true, Shift: true)),
+            // Orca ships Show Checks unbound; users bind this chord to it in Settings › Keyboard.
+            new("sidebar.checks.toggle", "Checks", new Chord(VirtualKeyCode.KeyK, Mod: true, Alt: true, Shift: true)),
             new("floatingTerminal.toggle", "Floating Terminal", new Chord(VirtualKeyCode.KeyA, Mod: true, Alt: true)),
             new("tab.newTerminal", "New Terminal Tab", new Chord(VirtualKeyCode.KeyT, Mod: true)),
             new("tab.close", "Close Tab", new Chord(VirtualKeyCode.KeyW, Mod: true)),

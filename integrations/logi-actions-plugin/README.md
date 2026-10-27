@@ -16,7 +16,9 @@ A [Logi Actions SDK](https://logitech.github.io/actions-sdk-docs) plugin. On the
 
 A white outline marks the worktree Orca is showing. Pressing a key runs `orca worktree activate`. The plugin polls `orca worktree ps --json` every 4 seconds while Orca is reachable and every 15 seconds while it isn't.
 
-**Navigation.** New Worktree, Switch Worktree, Previous or Next Worktree, Worktree History Back or Forward, Toggle Sidebar, Toggle Right Sidebar, Source Control, Floating Terminal, New Terminal Tab and Close Tab. These keys send Orca's **default** shortcuts, so if you rebind an action in Orca Settings › Keyboard, its key stops working.
+**Navigation.** New Worktree, Switch Worktree, Previous or Next Worktree, Worktree History Back or Forward, Toggle Sidebar, Toggle Right Sidebar, Source Control, Checks, Floating Terminal, New Terminal Tab and Close Tab. These keys send Orca's **default** shortcuts, so if you rebind an action in Orca Settings › Keyboard, its key stops working.
+
+Orca's **Show Checks** has no default shortcut. Before using the Checks key, bind Show Checks to ⌘⌥⇧K (Ctrl+Alt+Shift+K on Windows) in Orca Settings › Keyboard.
 
 ## Requirements
 
