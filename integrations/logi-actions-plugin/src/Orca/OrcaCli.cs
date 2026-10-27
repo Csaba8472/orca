@@ -50,14 +50,23 @@ namespace Loupedeck.OrcaPlugin
                 var stderrTask = process.StandardError.ReadToEndAsync(timeout.Token);
                 await process.WaitForExitAsync(timeout.Token);
                 var stdout = await stdoutTask;
-                await stderrTask;
-                if (process.ExitCode != 0 || String.IsNullOrWhiteSpace(stdout))
+                var stderr = await stderrTask;
+                if (String.IsNullOrWhiteSpace(stdout))
                 {
+                    PluginLog.Warning($"orca {String.Join(" ", args)} exited {process.ExitCode}: {stderr.Trim()}");
                     return null;
                 }
 
                 using var document = JsonDocument.Parse(stdout);
-                return document.RootElement.TryGetProperty("result", out var result) ? result.Clone() : null;
+                if (process.ExitCode == 0 && document.RootElement.TryGetProperty("result", out var result))
+                {
+                    return result.Clone();
+                }
+                var message = document.RootElement.TryGetProperty("error", out var error) && error.TryGetProperty("message", out var text)
+                    ? text.GetString()
+                    : stderr.Trim();
+                PluginLog.Warning($"orca {String.Join(" ", args)} failed: {message}");
+                return null;
             }
             catch (OperationCanceledException)
             {

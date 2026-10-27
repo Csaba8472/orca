@@ -39,8 +39,35 @@ namespace Loupedeck.OrcaPlugin
 
         public async Task ActivateAsync(String worktreeId)
         {
-            await this._cli.RunJsonAsync(new[] { "worktree", "activate", "--worktree", $"id:{worktreeId}" }, this._stop.Token);
+            var selector = $"id:{worktreeId}";
+            var activated = await this._cli.RunJsonAsync(new[] { "worktree", "activate", "--worktree", selector }, this._stop.Token);
+            if (!activated.HasValue)
+            {
+                // Orca releases without `worktree activate` still reveal a worktree by switching to one of its terminals.
+                await this.SwitchToFirstTerminalAsync(selector);
+            }
             await this.RefreshAsync();
+        }
+
+        private async Task SwitchToFirstTerminalAsync(String selector)
+        {
+            var list = await this._cli.RunJsonAsync(new[] { "terminal", "list", "--worktree", selector }, this._stop.Token);
+            if (!list.HasValue
+                || !list.Value.TryGetProperty("terminals", out var terminals)
+                || terminals.ValueKind != JsonValueKind.Array)
+            {
+                return;
+            }
+
+            var handle = terminals.EnumerateArray()
+                .Select(terminal => GetString(terminal, "handle"))
+                .FirstOrDefault(value => !String.IsNullOrEmpty(value));
+            if (handle == null)
+            {
+                PluginLog.Warning($"Orca worktree {selector} has no terminal to switch to");
+                return;
+            }
+            await this._cli.RunJsonAsync(new[] { "terminal", "switch", "--terminal", handle }, this._stop.Token);
         }
 
         // Cancel without disposing the source: a key press may still be awaiting its token.
