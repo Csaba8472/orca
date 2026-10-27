@@ -123,6 +123,19 @@ export const WORKTREE_HANDLERS: Record<string, CommandHandler> = {
     })
     printResult(result, json, formatWorktreeShow)
   },
+  'worktree activate': async ({ flags, client, cwd, json }) => {
+    const result = await client.call<{ worktreeId: string; activated: boolean }>(
+      'worktree.activate',
+      {
+        worktree: await getRequiredWorktreeSelector(flags, 'worktree', cwd, client),
+        // CLI activation targets its runtime's desktop, never unrelated paired viewers.
+        navigation: 'host'
+      }
+    )
+    printResult(result, json, (value) =>
+      value.activated ? `Activated ${value.worktreeId}` : `Did not activate ${value.worktreeId}`
+    )
+  },
   'worktree create': async (context) => {
     const { flags, client, cwd, json, rawArgs } = context
     const referenceInputs = getCreateReferenceInputs(flags)

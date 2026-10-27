@@ -1,0 +1,24 @@
+type: plugin4
+
+# Permanent marketplace identity: never rename after publishing.
+name: Orca
+displayName: Orca
+description: Jump between Orca worktrees with live agent status on your keys, and drive Orca navigation from MX Creative Console.
+pluginFileName: OrcaPlugin.dll
+version: 0.1
+author: Stably AI (Lovecast Inc.)
+copyright: Copyright © 2026 Lovecast Inc.
+
+pluginFolderWin: bin
+pluginFolderMac: bin
+
+pluginCapabilities:
+  - HasApplication
+  - ActivatesApplication
+
+minimumLoupedeckVersion: 6.0
+
+license: MIT
+licenseUrl: https://opensource.org/licenses/MIT
+supportPageUrl: https://github.com/stablyai/orca/issues
+homePageUrl: https://github.com/stablyai/orca

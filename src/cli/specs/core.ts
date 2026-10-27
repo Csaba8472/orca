@@ -64,6 +64,13 @@ export const CORE_COMMAND_SPECS: CommandSpec[] = [
     examples: ['orca worktree current', 'orca worktree current --json']
   },
   {
+    path: ['worktree', 'activate'],
+    summary: 'Switch the Orca app to a worktree',
+    usage: 'orca worktree activate --worktree <selector> [--json]',
+    allowedFlags: [...GLOBAL_FLAGS, 'worktree'],
+    examples: ['orca worktree activate --worktree id:<worktreeId>']
+  },
+  {
     path: ['worktree', 'create'],
     repeatableFlags: ['reference'],
     summary: 'Create a new Orca-managed worktree',
